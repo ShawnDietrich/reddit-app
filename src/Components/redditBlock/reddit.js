@@ -5,9 +5,11 @@ import ReactDOM from "react";
 export class RedditBlock extends React.Component {
 
   render() {
+    return (
     <div>
       
     </div>
+    )
   }
 }
 

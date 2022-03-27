@@ -5,10 +5,12 @@ import ReactDOM from 'react-dom';
 //Component to render
 export class BackButton extends React.Component {
   render() {
-    <div>
-      <button className='backbutton'>Back to Top</button>
-    </div>
+    return (
+      <div>
+        <button className='backbutton'>Back to Top</button>
+      </div>
+    )
   }
 }
 
-ReactDOM.render(<BackButton/>, document.getElementById('backbutton'));
+ReactDOM.render(<BackButton />, document.getElementById('backbutton'));
