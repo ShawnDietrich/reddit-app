@@ -31,3 +31,10 @@ export const fetchPosts = (subreddit) => async (dispatch) => {
         dispatch(getPostsError());   
     }
 }
+
+//selectors
+export const selectPosts = (state) => state.reddit.redditPosts;
+//actions
+export const {getPosts, getPostsError} = RedditPosts.actions;
+//reducers
+export default RedditPosts.reducer;
