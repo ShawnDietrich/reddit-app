@@ -13,4 +13,3 @@ export class SearchBar extends React.Component {
   }
 }
 
-ReactDOM.render(<SearchBar/>, document.getElementById('searchBar'));

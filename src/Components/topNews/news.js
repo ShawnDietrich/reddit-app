@@ -14,4 +14,4 @@ export class TopNews extends React.Component {
   }
 }
 
-ReactDOM.render(<TopNews/>, document.getElementById('topNews'));
+
