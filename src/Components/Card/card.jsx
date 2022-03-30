@@ -4,7 +4,7 @@ import './card.css';
 import { useEffect } from "react";
 import { fetchPosts, selectPosts } from "../../WebAPIs/redditSlice";
 import { getSubredditPosts } from "../../WebAPIs/reddit";
-import Posts from "../Posts/Post";
+import Posts from "../Posts/Posts";
 
 //Map results from get posts on to each card
 
@@ -24,12 +24,13 @@ const Card = () => {
 
     return (
       <>
-        {posts.map((post) => {
-          <Posts 
-            key={post.id}
-            post={post}
+        {posts.map((post, index) => (
+          <Posts
+          key={index}
+          post={post}
           />
-        })}
+        ))}
+        
       </>
     )
   }
