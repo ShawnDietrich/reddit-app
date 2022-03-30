@@ -9,20 +9,21 @@ import { getSubredditPosts } from "../../WebAPIs/reddit";
 
 const Card = () => {
   const redditPosts = useSelector(selectPosts)
-  const {isLoading, error, searchTerm, selectedSubreddit} = redditPosts;
+  const {isLoading, error, searchTerm, posts} = redditPosts;
   const dispatch = useDispatch();
 
-  const handleClick = () => {
-    dispatch(fetchPosts(selectedSubreddit));
-  }
+  //const handleClick = () => {
+ //  dispatch(fetchPosts());
+  //  console.log(redditPosts.posts);
+ // }
   //use effect to call the fetch posts when the page loads or renders
-    //useEffect(() => {
-     // dispatch(fetchPosts(selectedSubreddit))
-   // }, [getSubredditPosts]);
+    useEffect(() => {
+      dispatch(fetchPosts())
+    },[]);
 
     return (
       <div>
-        <button onClick={handleClick}>Get Reddit Posts</button>
+        <button >Get Reddit Posts</button>
       </div>
     )
   }
