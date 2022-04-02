@@ -1,5 +1,5 @@
 import React from "react";
-import { Cards } from "../Card/cards";
+import { Card } from "../card/card";
 import "./Posts.css";
 
 //parse post data and render componetns
@@ -8,7 +8,7 @@ const Posts = (props) => {
   //console.log(props.post);
   return (
     <article key={index}>
-      <Cards>
+      <Card>
         <div className="post-wrapper">
           <div className="post-container">
               
@@ -24,7 +24,7 @@ const Posts = (props) => {
             </div>
           </div>
         </div>
-      </Cards>
+      </Card>
     </article>
   );
 };

@@ -3,14 +3,14 @@ import "./App.css";
 import { SearchBar } from "./Components/searchBar/searchBar";
 import { TopNews } from "./Components/topNews/news";
 import React from "react";
-import Card from "./Components/Card/card";
+import Home from "./Components/home/home";
 
 function App() {
   return (
     <>
-      <header className="App-header">This is the header</header>
+      <header className="App-header">The Reddit App</header>
       <main>
-        <Card />
+        <Home />
       </main>
     </>
   );
