@@ -2,7 +2,7 @@ import React from "react";
 import {useSelector, useDispatch} from 'react-redux'
 import './home.css';
 import { useEffect } from "react";
-import { fetchPosts, selectPosts } from "../../WebAPIs/redditSlice";
+import { fetchComments, fetchPosts, selectPosts } from "../../WebAPIs/redditSlice";
 import { getSubredditPosts } from "../../WebAPIs/reddit";
 import Posts from "../Posts/Posts";
 
@@ -22,12 +22,19 @@ const Home = () => {
       dispatch(fetchPosts())
     },[]);
 
+    const handleToggleComments = (index, permaLink) => {
+      //console.log(permaLink)
+      fetchComments(index, permaLink)
+    }
+
     return (
       <>
         {posts.map((post, index) => (
           <Posts
-          key={index}
+          key={post.id}
           post={post}
+          index = {index}
+          onToggleComments={handleToggleComments}
           />
         ))}
         

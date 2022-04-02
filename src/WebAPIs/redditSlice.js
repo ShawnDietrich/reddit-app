@@ -11,9 +11,24 @@ export const fetchPosts = createAsyncThunk(
       const response = await fetch("https://www.reddit.com/r/pics/.json"); //fetch(`${root}${subreddit}.json`);
       const json = await response.json();
       return json.data.children.map((post) => post.data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
 );
+
+export const fetchComments = createAsyncThunk(
+  "reddit/loadRedditComments",
+  async (index, permaLink) => {
+    try {
+      const response = await fetch(`${root}${permaLink}.json`)
+      const json = await response.json;
+      return json[1].data.children.map((subreddit) => subreddit.data)
+    } catch (error) {
+      
+    }
+  }
+)
 
 const redditPosts = createSlice({
   name: "redditPosts",
@@ -24,7 +39,20 @@ const redditPosts = createSlice({
     searchTerm: "",
     selectedSubreddit: "/r/pics/",
   },
-  reducers: {},
+  reducers: {
+    showComments(state, payload) {
+      state.posts[payload.action].showingComments = !state.posts[payload.action].showingComments
+    },
+    startGetComments(state, payload) {
+      
+      state.posts[payload.action].loadingComments = true;
+      state.posts[payload.action].error = false;
+    },
+    finishedGetComments(state, payload) {
+      state.posts[payload.action].loadingComments = true;
+      state.posts[payload.action].error = false;
+    }
+  },
   extraReducers: {
     [fetchPosts.pending]: (state, action) => {
       state.isLoading = true;
@@ -47,5 +75,7 @@ const redditPosts = createSlice({
 export const selectPosts = (state) => state.reddit;
 //Thunk states
 export const isLoading = (state) => state.redditPosts.isLoading;
+//actions
+export const {startGetComments} = redditPosts.actions;
 //reducers
 export default redditPosts.reducer;
