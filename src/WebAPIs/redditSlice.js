@@ -10,25 +10,32 @@ export const fetchPosts = createAsyncThunk(
     try {
       const response = await fetch("https://www.reddit.com/r/pics/.json"); //fetch(`${root}${subreddit}.json`);
       const json = await response.json();
-      return json.data.children.map((post) => post.data);
+      const posts = json.data.children.map((post) => post.data);
+      const postsWithMetaData = posts.map((post) => ({
+        ...post,
+        showingComments: false,
+        commentsLoading: false,
+        commentComplete: false,
+        errorComments: false,
+        comments: [],
+      }));
+      return postsWithMetaData;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 );
 
 export const fetchComments = createAsyncThunk(
   "reddit/loadRedditComments",
-  async (index, permaLink) => {
+  async (permaLink) => {
     try {
-      const response = await fetch(`${root}${permaLink}.json`)
-      const json = await response.json;
-      return json[1].data.children.map((subreddit) => subreddit.data)
-    } catch (error) {
-      
-    }
+      const response = await fetch(`${root}${permaLink}.json`);
+      const json = await response.json();
+      return await json[1].data.children.map((subreddit) => subreddit.data);
+    } catch (error) {}
   }
-)
+);
 
 const redditPosts = createSlice({
   name: "redditPosts",
@@ -40,18 +47,20 @@ const redditPosts = createSlice({
     selectedSubreddit: "/r/pics/",
   },
   reducers: {
-    showComments(state, payload) {
-      state.posts[payload.action].showingComments = !state.posts[payload.action].showingComments
+    showComments(state, action) {
+      //console.log(state.posts[action.payload])
+      state.posts[action.payload].showingComments =
+        !state.posts[action.payload].showingComments;
     },
-    startGetComments(state, payload) {
-      
-      state.posts[payload.action].loadingComments = true;
-      state.posts[payload.action].error = false;
+    startComments(state, action) {
+      state.posts[action.payload].commentsLoading = true;
     },
-    finishedGetComments(state, payload) {
-      state.posts[payload.action].loadingComments = true;
-      state.posts[payload.action].error = false;
-    }
+    finishComments(state, action) {
+      state.posts[action.payload.index].commentsLoading = false;
+      state.posts[action.payload.index].errorComments = false;
+      state.posts[action.payload.index].commentComplete = true;
+      state.posts[action.payload.index].comments = action.payload.comments;
+    },
   },
   extraReducers: {
     [fetchPosts.pending]: (state, action) => {
@@ -76,6 +85,7 @@ export const selectPosts = (state) => state.reddit;
 //Thunk states
 export const isLoading = (state) => state.redditPosts.isLoading;
 //actions
-export const {startGetComments} = redditPosts.actions;
+export const { showComments, startComments, finishComments } =
+  redditPosts.actions;
 //reducers
 export default redditPosts.reducer;

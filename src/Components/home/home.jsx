@@ -2,7 +2,7 @@ import React from "react";
 import {useSelector, useDispatch} from 'react-redux'
 import './home.css';
 import { useEffect } from "react";
-import { fetchComments, fetchPosts, selectPosts } from "../../WebAPIs/redditSlice";
+import { fetchComments, fetchPosts, finishComments, selectPosts, showComments, startComments } from "../../WebAPIs/redditSlice";
 import { getSubredditPosts } from "../../WebAPIs/reddit";
 import Posts from "../Posts/Posts";
 
@@ -22,9 +22,11 @@ const Home = () => {
       dispatch(fetchPosts())
     },[]);
 
-    const handleToggleComments = (index, permaLink) => {
-      //console.log(permaLink)
-      fetchComments(index, permaLink)
+    const handleToggleComments = async (index, permaLink) => {
+      dispatch(showComments(index))
+      dispatch(startComments(index))
+      const comments = await dispatch(fetchComments(permaLink))
+      return dispatch(finishComments({index, comments}))
     }
 
     return (
