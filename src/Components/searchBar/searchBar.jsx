@@ -1,17 +1,20 @@
 import React from "react";
 import ReactDOM from 'react-dom';
+import { useDispatch } from "react-redux";
+import { setSearchTerm } from "../../WebAPIs/redditSlice";
 import './searchBar.css'
 
 const SearchBar = () => {
-  let SearchValue = '';
-  
+  let searchValue = '';
+  const dispatch = useDispatch();
+
   const handleChange = (event) => {
     event.preventDefault();
-    SearchValue = event.target.value;
+    searchValue = event.target.value;
   }
 
   const handleSubmit = async () => {
-    
+    dispatch(setSearchTerm(searchValue))
   }
 
   

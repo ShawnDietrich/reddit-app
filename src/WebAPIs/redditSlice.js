@@ -6,7 +6,7 @@ export const root = "https://www.reddit.com";
 //Call to get Sub Reddit Posts using API
 export const fetchPosts = createAsyncThunk(
   "reddit/loadRedditPosts",
-  async (searchResult = '') => {
+  async () => {
     try {
       const response = await fetch("https://www.reddit.com/r/pics/.json"); //fetch(`${root}${subreddit}.json`);
       const json = await response.json();
@@ -61,6 +61,9 @@ const redditPosts = createSlice({
       state.posts[action.payload.index].commentComplete = true;
       state.posts[action.payload.index].comments = action.payload.comments;
     },
+    setSearchTerm(state, action) {
+      state.searchTerm = action.payload;
+    }
   },
   extraReducers: {
     [fetchPosts.pending]: (state, action) => {
@@ -85,7 +88,7 @@ export const selectPosts = (state) => state.reddit;
 //Thunk states
 export const isLoading = (state) => state.redditPosts.isLoading;
 //actions
-export const { showComments, startComments, finishComments } =
+export const { showComments, startComments, finishComments, setSearchTerm } =
   redditPosts.actions;
 //reducers
 export default redditPosts.reducer;

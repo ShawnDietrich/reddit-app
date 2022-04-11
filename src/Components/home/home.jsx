@@ -20,7 +20,7 @@ const Home = () => {
   //use effect to call the fetch posts when the page loads or renders
     useEffect(() => {
       dispatch(fetchPosts())
-    },[]);
+    },[searchTerm]);
 
     const handleToggleComments = async (index, permaLink) => {
       dispatch(showComments(index))
