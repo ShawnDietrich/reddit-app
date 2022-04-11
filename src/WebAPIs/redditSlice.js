@@ -6,7 +6,7 @@ export const root = "https://www.reddit.com";
 //Call to get Sub Reddit Posts using API
 export const fetchPosts = createAsyncThunk(
   "reddit/loadRedditPosts",
-  async (payload, { getState }) => {
+  async (searchResult = '') => {
     try {
       const response = await fetch("https://www.reddit.com/r/pics/.json"); //fetch(`${root}${subreddit}.json`);
       const json = await response.json();
