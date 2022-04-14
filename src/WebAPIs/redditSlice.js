@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from "@reduxjs/toolkit";
 import { getSubredditPosts } from "./reddit";
 
 export const root = "https://www.reddit.com";
@@ -63,7 +67,7 @@ const redditPosts = createSlice({
     },
     setSearchTerm(state, action) {
       state.searchTerm = action.payload;
-    }
+    },
   },
   extraReducers: {
     [fetchPosts.pending]: (state, action) => {
@@ -84,7 +88,20 @@ const redditPosts = createSlice({
 });
 
 //selectors
-export const selectPosts = (state) => state.reddit;
+const selectPosts = (state) => state.reddit.posts;
+const selectSearchTerm = (state) => state.reddit.searchTerm;
+
+export const selectFliterPost = createSelector(
+  [selectPosts, selectSearchTerm],
+  (posts, searchTerm) => {
+    if (searchTerm === "") {
+      return posts;
+    }
+    return posts.filter((post) =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+);
 //Thunk states
 export const isLoading = (state) => state.redditPosts.isLoading;
 //actions

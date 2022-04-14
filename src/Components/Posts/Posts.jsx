@@ -1,8 +1,8 @@
 import React from "react";
-import Skeleton from 'react-loading-skeleton';
-import { Card } from "../card/card";
+import Skeleton from "react-loading-skeleton";
+import Card from "../Card/card";
 import "./Posts.css";
-import Comment from '../Comment/Comment'
+import Comment from "../Comment/Comment";
 
 //parse post data and render componetns
 const Posts = (props) => {
@@ -24,7 +24,7 @@ const Posts = (props) => {
           <Skeleton />
           <Skeleton />
         </div>
-      )
+      );
     }
 
     if (post.commentComplete) {
@@ -32,21 +32,18 @@ const Posts = (props) => {
       return (
         <div>
           {post.comments.payload.map((comment, index) => (
-            <Comment comment={comment} key={index}/>
-      ))}
+            <Comment comment={comment} key={index} />
+          ))}
         </div>
-      )
-      
+      );
     }
-  }
- 
+  };
 
   return (
     <article key={index}>
       <Card ClassName={post.title}>
         <div className="post-wrapper">
           <div className="post-container">
-              
             <h3 className="post-title">{post.title}</h3>
 
             <div className="post-image-container">
@@ -55,11 +52,15 @@ const Posts = (props) => {
 
             <div className="post-details">
               <span className="post-comments-container">
-                <button type="button"
-                  className={`icon-action-button ${post.showingComments && 'showing-comments'}`}
+                <button
+                  type="button"
+                  className={`icon-action-button ${
+                    post.showingComments && "showing-comments"
+                  }`}
                   onClick={() => props.onToggleComments(index, post.permalink)}
                   aria-label="Show comments"
-                >Show Comments
+                >
+                  Show Comments
                 </button>
               </span>
             </div>
